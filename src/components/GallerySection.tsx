@@ -7,6 +7,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 
+
 export function GallerySection() {
   const [selectedAlbum, setSelectedAlbum] = useState('all');
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
@@ -21,15 +22,15 @@ export function GallerySection() {
   const photos = [
     {
       id: 1,
-      src: 'https://images.unsplash.com/photo-1609561026486-f5d4a3c4c660?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGNvdXBsZSUyMHN1bnNldCUyMGJlYWNofGVufDF8fHx8MTc1ODU3MDUzMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Beach sunset',
-      category: 'trips',
-      caption: 'Sunset at Malibu Beach - our first weekend getaway',
-      credit: 'Photo by Alex'
+      src: 'https://voltriv.github.io/pics%20and%20vid/pic1.jpg',
+      alt: 'Date',
+      category: 'dates',
+      caption: 'Restaurant date with my love ',
+      credit: 'Photo by Elijah'
     },
     {
       id: 2,
-      src: 'https://images.unsplash.com/photo-1629401681628-a37c83eb57d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBtb3VudGFpbiUyMGhpa2luZyUyMGFkdmVudHVyZXxlbnwxfHx8fDE3NTg1NzIxMTJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      src: 'https://voltriv.github.io/pics%20and%20vid/vid1.mp4',
       alt: 'Mountain adventure',
       category: 'trips',
       caption: 'Hiking in the Rockies - challenging but so worth it!',
@@ -69,6 +70,7 @@ export function GallerySection() {
       credit: 'Photo by Sam'
     },  
   ];
+
 
   const filteredPhotos = selectedAlbum === 'all' 
     ? photos 
@@ -123,11 +125,23 @@ export function GallerySection() {
             >
               <CardContent className="p-0 relative">
                 <div className="aspect-square overflow-hidden">
-                  <ImageWithFallback
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  {photo.src.endsWith('.mp4') ? (  // If it's a video
+                    <video
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      controls
+                      onMouseEnter={(e) => e.target.play()}  // Start playing on hover
+                      onMouseLeave={(e) => e.target.pause()} // Pause on hover out
+                    >
+                      <source src={photo.src} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  )}
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
@@ -165,12 +179,24 @@ export function GallerySection() {
                   <ChevronRight className="w-5 h-5" />
                 </button>
 
-                <ImageWithFallback
-                  src={filteredPhotos[lightboxImage].src}
-                  alt={filteredPhotos[lightboxImage].alt}
-                  className="w-full h-auto max-h-[80vh] object-contain"
-                />
-                
+                {filteredPhotos[lightboxImage].src.endsWith('.mp4') ? (
+                  <video
+                    className="w-full h-auto max-h-[80vh] object-contain"
+                    controls
+                    onMouseEnter={(e) => e.target.play()}  // Start playing on hover
+                    onMouseLeave={(e) => e.target.pause()} // Pause on hover out
+                  >
+                    <source src={filteredPhotos[lightboxImage].src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <img
+                    src={filteredPhotos[lightboxImage].src}
+                    alt={filteredPhotos[lightboxImage].alt}
+                    className="w-full h-auto max-h-[80vh] object-contain"
+                  />
+                )}
+
                 <div className="p-6 bg-background">
                   <p className="mb-2">{filteredPhotos[lightboxImage].caption}</p>
                   <p className="text-sm text-muted-foreground">{filteredPhotos[lightboxImage].credit}</p>
