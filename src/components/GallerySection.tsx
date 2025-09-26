@@ -14,7 +14,7 @@ export function GallerySection() {
 
   const albums = [
     { id: 'all', name: 'All Photos', count: 12 },
-    { id: 'trips', name: 'Trips', count: 4 },
+    { id: 'video', name: 'Video', count: 4 },
     { id: 'dates', name: 'Dates', count: 4 },
     { id: 'favorites', name: 'Favorites', count: 4 },
   ];
@@ -23,7 +23,7 @@ export function GallerySection() {
     {
       id: 1,
       src: 'https://voltriv.github.io/pics%20and%20vid/pic1.jpg',
-      alt: 'Date',
+      alt: 'Our Beautiful Eyes',
       category: 'dates',
       caption: 'Restaurant date with my love ',
       credit: 'Photo by Elijah'
@@ -31,41 +31,41 @@ export function GallerySection() {
     {
       id: 2,
       src: 'https://voltriv.github.io/pics%20and%20vid/vid1.mp4',
-      alt: 'Mountain adventure',
-      category: 'trips',
-      caption: 'Hiking in the Rockies - challenging but so worth it!',
-      credit: 'Photo by Sam'
+      alt: 'Beach Date the',
+      category: 'video',
+      caption: 'Monthsary date in tondaligan beach',
+      credit: ''
     },
     {
       id: 3,
-      src: 'https://images.unsplash.com/photo-1758373149828-29620aebfea7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGRpbm5lciUyMGNhbmRsZWxpZ2h0JTIwcmVzdGF1cmFudHxlbnwxfHx8fDE3NTg1NzIxMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      alt: 'Romantic dinner',
-      category: 'dates',
-      caption: 'Anniversary dinner at Le Bernardin',
-      credit: 'Photo by Restaurant Staff'
+      src: 'https://voltriv.github.io/pics%20and%20vid/vid2.mp4',
+      alt: 'Beach Date the',
+      category: 'video',
+      caption: 'Monthsary date in tondaligan beach',
+      credit: ''
     },
     {
       id: 4,
-      src: 'https://images.unsplash.com/photo-1706306688486-33506b105452?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBjb2ZmZWUlMjBkYXRlJTIwY2FmZXxlbnwxfHx8fDE3NTg1NzIxMTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      src: 'https://voltriv.github.io/pics%20and%20vid/vid3.mp4',
       alt: 'Coffee date',
-      category: 'dates',
+      category: 'video',
       caption: 'Sunday morning coffee run - our weekly tradition',
       credit: 'Photo by Cafe Owner'
     },
     // Duplicating photos for demo purposes with different categories
     {
       id: 5,
-      src: 'https://images.unsplash.com/photo-1609561026486-f5d4a3c4c660?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGNvdXBsZSUyMHN1bnNldCUyMGJlYWNofGVufDF8fHx8MTc1ODU3MDUzMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      src: 'https://voltriv.github.io/pics%20and%20vid/vid4.mp4',
       alt: 'Beach sunset favorite',
-      category: 'favorites',
+      category: 'video',
       caption: 'One of our all-time favorite moments',
       credit: 'Photo by Alex'
     },
     {
       id: 6,
-      src: 'https://images.unsplash.com/photo-1629401681628-a37c83eb57d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBtb3VudGFpbiUyMGhpa2luZyUyMGFkdmVudHVyZXxlbnwxfHx8fDE3NTg1NzIxMTJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      src: 'https://voltriv.github.io/pics%20and%20vid/vid5.mp4',
       alt: 'Mountain favorite',
-      category: 'favorites',
+      category: 'video',
       caption: 'The view that took our breath away',
       credit: 'Photo by Sam'
     },  

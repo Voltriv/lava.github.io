@@ -50,12 +50,12 @@ export function AboutSection() {
                   <span>Dagupan, PH</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Photographer, coffee enthusiast, and adventure seeker. Always planning our next trip or trying new recipes.
+                  Just an Normal College Student.
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary">Photography</Badge>
-                  <Badge variant="secondary">Travel</Badge>
-                  <Badge variant="secondary">Cooking</Badge>
+                  <Badge variant="secondary">Gamer</Badge>
+                  <Badge variant="secondary">Biker</Badge>
+                  <Badge variant="secondary">Athlete</Badge>
                 </div>
               </div>
             </CardContent>
@@ -74,12 +74,12 @@ export function AboutSection() {
                   <span>Dagupan, PH</span>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Designer, book lover, and yoga instructor. Brings creativity and mindfulness to everything we do together.
+                  She's a singer, a beautiful soul, and an academic achiever.
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge variant="secondary">Design</Badge>
-                  <Badge variant="secondary">Yoga</Badge>
-                  <Badge variant="secondary">Reading</Badge>
+                  <Badge variant="secondary">Singer</Badge>
+                  <Badge variant="secondary">Beautiful</Badge>
+                  <Badge variant="secondary">Academic Achiever</Badge>
                 </div>
               </div>
             </CardContent>
@@ -92,10 +92,10 @@ export function AboutSection() {
             <Heart className="w-8 h-8 text-red-500 mx-auto mb-4" />
             <h3 className="text-2xl mb-4">How We Met</h3>
             <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              It was a rainy Thursday morning, and Alex was rushing to catch the bus when they literally bumped into Sam 
-              outside the coffee shop. Sam's books went flying, Alex's coffee went everywhere, and somehow in that chaotic 
-              moment, we both started laughing. Alex insisted on buying Sam a new latte to make up for the collision, 
-              and three hours later, we were still talking. Sometimes the best things happen when you least expect them.
+              We met at Food market in Dagupan City, a serendipitous encounter that sparked an instant connection.
+              From that moment on, our journey together began, filled with laughter, shared dreams, and countless 
+              unforgettable memories. Every day since has been a new chapter in our love story, and we can't wait to see
+              where the next pages take us.
             </p>
           </div>
         </Card>
