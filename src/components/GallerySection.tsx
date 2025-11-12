@@ -5,6 +5,7 @@ import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { mediaAsset } from '@/lib/constants';
 
 
 
@@ -22,7 +23,7 @@ export function GallerySection() {
   const photos = [
     {
       id: 1,
-      src: 'https://voltriv.github.io/pics%20and%20vid/pic1.jpg',
+      src: mediaAsset('pic1.jpg'),
       alt: 'Our Beautiful Eyes',
       category: 'dates',
       caption: 'Restaurant date with my love ',
@@ -30,7 +31,7 @@ export function GallerySection() {
     },
     {
       id: 2,
-      src: 'https://voltriv.github.io/pics%20and%20vid/vid1.mp4',
+      src: mediaAsset('vid1.mp4'),
       alt: 'Beach Date the',
       category: 'video',
       caption: 'Monthsary date in tondaligan beach',
@@ -38,7 +39,7 @@ export function GallerySection() {
     },
     {
       id: 3,
-      src: 'https://voltriv.github.io/pics%20and%20vid/vid2.mp4',
+      src: mediaAsset('vid2.mp4'),
       alt: 'Beach Date the',
       category: 'video',
       caption: 'Monthsary date in tondaligan beach',
@@ -46,7 +47,7 @@ export function GallerySection() {
     },
     {
       id: 4,
-      src: 'https://voltriv.github.io/pics%20and%20vid/vid3.mp4',
+      src: mediaAsset('vid3.mp4'),
       alt: 'Coffee date',
       category: 'video',
       caption: 'Sunday morning coffee run - our weekly tradition',
@@ -55,7 +56,7 @@ export function GallerySection() {
     // Duplicating photos for demo purposes with different categories
     {
       id: 5,
-      src: 'https://voltriv.github.io/pics%20and%20vid/vid4.mp4',
+      src: mediaAsset('vid4.mp4'),
       alt: 'Beach sunset favorite',
       category: 'video',
       caption: 'One of our all-time favorite moments',
@@ -63,7 +64,7 @@ export function GallerySection() {
     },
     {
       id: 6,
-      src: 'https://voltriv.github.io/pics%20and%20vid/vid5.mp4',
+      src: mediaAsset('vid5.mp4'),
       alt: 'Mountain favorite',
       category: 'video',
       caption: 'The view that took our breath away',

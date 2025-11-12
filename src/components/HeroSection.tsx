@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Card } from './ui/card';
-import { AnimatedCounter } from './AnimatedCounter';        
-import { ParallaxSection } from './ParallaxSection';
+import { HERO_BACKGROUND } from '@/lib/constants';
 
 export function HeroSection() { 
   const [timeLeft, setTimeLeft] = useState({
@@ -42,7 +41,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
-          src= 'https://voltriv.github.io/sample.jpg'
+          src={HERO_BACKGROUND}
           alt="background"
           className="w-full h-full object-cover"
         />
