@@ -1,158 +1,112 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Navigation } from './components/Navigation';
-import { HeroSection } from './components/HeroSection';
+import { useEffect, useState } from 'react';
+import { BirthdayBanner } from './components/BirthdayBanner';
+import { BirthdayPlaylistPlayer } from './components/BirthdayPlaylistPlayer';
 import { AboutSection } from './components/AboutSection';
 import { GallerySection } from './components/GallerySection';
 import { MilestonesSection } from './components/MilestonesSection';
 import { LoveNotesSection } from './components/LoveNotesSection';
-import { Toaster } from './components/ui/sonner';
+import { Navigation } from './components/Navigation';
 import { FloatingHearts } from './components/FloatingHearts';
 import { InteractiveBackground } from './components/InteractiveBackground';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
-import { LoadingScreen } from './components/LoadingSpinner';
+import { Button } from './components/ui/button';
+import { AdminPanel } from './components/AdminPanel';
+import { Toaster } from './components/ui/sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from './components/ui/dialog';
+
+type ViewMode = 'birthday' | 'story' | 'admin';
 
 export default function App() {
+  const [view, setView] = useState<ViewMode>('birthday');
+  const [showPlaylist, setShowPlaylist] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Load dark mode preference from localStorage
   useEffect(() => {
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode) {
-      setDarkMode(JSON.parse(savedDarkMode));
+    const saved = localStorage.getItem('darkMode');
+    if (saved) {
+      setDarkMode(JSON.parse(saved));
     }
   }, []);
 
-  // Simulate loading
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Apply dark mode class and save preference
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', darkMode);
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  if (view === 'admin') {
+    return <AdminPanel onBack={() => setView('birthday')} />;
+  }
 
-  if (isLoading) {
+  if (view === 'story') {
     return (
-      <AnimatePresence>
-        <LoadingScreen />
-      </AnimatePresence>
+      <div className="min-h-screen bg-background text-foreground relative">
+        <ScrollProgressBar />
+        <FloatingHearts />
+        <InteractiveBackground />
+        <Navigation darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />
+
+        <main className="pt-24 pb-16 space-y-16">
+          <section className="px-4 text-center space-y-3">
+            <p className="text-sm uppercase tracking-[0.4em] text-muted-foreground">Our story</p>
+            <h1 className="text-4xl md:text-5xl font-semibold">Elijah & Annielyn</h1>
+            <p className="text-muted-foreground max-w-3xl mx-auto">
+              Our love story, captured in pixels and preserved in memories.
+            </p>
+            <Button variant="outline" className="mt-4" onClick={() => setView('birthday')}>
+              Back to birthday surprise
+            </Button>
+          </section>
+
+          <div className="space-y-16">
+            <AboutSection />
+            <GallerySection />
+            <MilestonesSection />
+            <LoveNotesSection />
+          </div>
+        </main>
+
+        <footer className="bg-gradient-to-r from-muted/20 via-accent/10 to-muted/20 py-10 px-4 text-center text-sm text-muted-foreground">
+          Crafted with ♥ for Annielyn.
+        </footer>
+
+        <Toaster />
+      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
-      {/* Interactive Elements */}
-      <ScrollProgressBar />
-      <FloatingHearts />
-      <InteractiveBackground />
-      
-      <Navigation darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <HeroSection />
-        <AboutSection />
-        <GallerySection />
-        <MilestonesSection />
-        <LoveNotesSection />
-      </motion.main>
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-rose-100 text-foreground">
+      <BirthdayBanner
+        onOpenStory={() => setView('story')}
+        onOpenPlaylist={() => setShowPlaylist(true)}
+      />
 
-      {/* Enhanced Footer */}
-      <motion.footer 
-        className="bg-gradient-to-r from-muted/20 via-accent/10 to-muted/20 py-12 px-4 relative overflow-hidden"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        {/* Footer background effects */}
-        <div className="absolute inset-0 opacity-10">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute text-primary"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                fontSize: `${Math.random() * 20 + 10}px`,
-              }}
-              animate={{
-                y: [0, -20, 0],
-                opacity: [0.3, 0.7, 0.3],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            >
-              💕
-            </motion.div>
-          ))}
-        </div>
+      <div className="flex justify-center px-4">
+        <Button variant="ghost" onClick={() => setView('admin')}>
+          Go to admin
+        </Button>
+      </div>
 
-        <div className="container mx-auto max-w-6xl text-center relative z-10">
-          <motion.div 
-            className="flex justify-center items-center space-x-2 mb-4"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <motion.span 
-              className="text-2xl"
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              💕
-            </motion.span>
-            <span className="font-medium">Elijah & Annielyn</span>
-            <motion.span 
-              className="text-2xl"
-              animate={{ rotate: [0, -10, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              💕
-            </motion.span>
-          </motion.div>
-          <motion.p 
-            className="text-muted-foreground mb-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            Our love story, captured in pixels and preserved in memories.
-          </motion.p>
-          <motion.div 
-            className="flex justify-center items-center space-x-4 text-sm text-muted-foreground"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <span>Made with ❤️ in</span>
-            <span>•</span>
-            <span>Dagupan, PH</span>
-          </motion.div>
-        </div>
-      </motion.footer>
+      <Dialog open={showPlaylist} onOpenChange={setShowPlaylist}>
+        <DialogContent className="max-w-2xl w-[90vw] bg-background">
+          <DialogHeader className="pb-2">
+            <DialogTitle>Birthday Playlist</DialogTitle>
+            <DialogDescription>Little songs for every version of your smile.</DialogDescription>
+          </DialogHeader>
+          <BirthdayPlaylistPlayer />
+        </DialogContent>
+      </Dialog>
 
-      {/* Toast Notifications */}
+      <footer className="px-4 py-8 text-center text-xs text-muted-foreground">
+        Crafted with love for Annielyn&apos;s birthday.
+      </footer>
+
       <Toaster />
     </div>
   );

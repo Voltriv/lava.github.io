@@ -3,14 +3,55 @@ import { motion } from 'motion/react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Calendar, MapPin, Heart, Star, Gift, Home } from 'lucide-react';
+import { Calendar, MapPin, Heart, Star, Gift, Home, Sparkles, Cake, PartyPopper } from 'lucide-react';
 import { AnimatedCounter } from './AnimatedCounter';
 import { ParallaxSection } from './ParallaxSection';
 
 export function MilestonesSection() {
   const [viewMode, setViewMode] = useState<'cards' | 'timeline'>('cards');
 
+  const birthdayHighlight = {
+    dateLabel: 'December 14, 2025',
+    location: 'Dagupan Boardwalk',
+    theme: 'Celestial Bloom Evening',
+    promise: 'A slow, love-soaked celebration with music, letters, and dessert under fairy lights.',
+  };
+
+  const birthdayMoments = [
+    {
+      title: 'Wish Jar Ceremony',
+      detail: '24 grateful notes—one for every hour that you will glow on your day.',
+      icon: <Sparkles className="h-5 w-5" />,
+    },
+    {
+      title: 'Birthday Cake & Serenade',
+      detail: 'Homemade cake + my acoustic cover of your favorite song.',
+      icon: <Cake className="h-5 w-5" />,
+    },
+    {
+      title: 'Midnight Toast',
+      detail: 'Polaroid selfie + sparkling juice as we seal a new year of us.',
+      icon: <PartyPopper className="h-5 w-5" />,
+    },
+  ];
+
+  const birthdayTimeline = [
+    { time: '6:00 AM', plan: 'Sunrise letter at Tondaligan Beach' },
+    { time: '3:00 PM', plan: 'Gallery date & favorite merienda' },
+    { time: '8:00 PM', plan: 'Celestial picnic + candle-lit wishes' },
+  ];
+
   const milestones = [
+    {
+      id: 0,
+      date: '2025-12-14',
+      title: 'Annielyn\'s Birthday Celebration',
+      location: 'Dagupan Boardwalk',
+      description: 'A candle-lit picnic with polaroids, music, and wishes for the year ahead.',
+      category: 'celebration',
+      icon: <Gift className="w-5 h-5" />,
+      color: 'bg-fuchsia-500'
+    },
     {
       id: 1,
       date: '2020-03-15',
@@ -88,7 +129,8 @@ export function MilestonesSection() {
       relationship: 'bg-pink-100 text-pink-800',
       holiday: 'bg-green-100 text-green-800',
       home: 'bg-blue-100 text-blue-800',
-      travel: 'bg-purple-100 text-purple-800'
+      travel: 'bg-purple-100 text-purple-800',
+      celebration: 'bg-fuchsia-100 text-fuchsia-800'
     };
     return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
@@ -152,6 +194,95 @@ export function MilestonesSection() {
       </div>
 
       <div className="container mx-auto max-w-6xl">
+        <motion.div
+          className="relative mb-16 overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/20 via-rose-500/20 to-accent/30 p-8 shadow-[0_25px_65px_-35px_rgba(244,114,182,0.9)]"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="absolute inset-0 opacity-20">
+            {[...Array(16)].map((_, index) => (
+              <motion.span
+                key={index}
+                className="absolute text-rose-300"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  fontSize: `${Math.random() * 18 + 8}px`,
+                }}
+                animate={{
+                  y: [0, -12, 0],
+                  opacity: [0.3, 0.8, 0.3],
+                }}
+                transition={{
+                  duration: 2 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: Math.random(),
+                }}
+              >
+                *
+              </motion.span>
+            ))}
+          </div>
+
+          <div className="relative z-10 grid gap-10 md:grid-cols-[1.4fr,1fr] items-start text-slate-900">
+            <div>
+              <div className="inline-flex items-center gap-3 rounded-full border border-rose-200 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-slate-700">
+                <Sparkles className="h-4 w-4 text-rose-500" />
+                Birthday Spotlight
+              </div>
+              <h3 className="mt-5 text-3xl font-semibold md:text-4xl">
+                {birthdayHighlight.theme}
+              </h3>
+              <p className="mt-3 max-w-xl text-slate-700">
+                {birthdayHighlight.promise}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-600">
+                <div className="rounded-2xl border border-rose-100 bg-white/90 px-4 py-3 shadow-inner">
+                  <p className="text-xs uppercase tracking-wide text-slate-400">Date</p>
+                  <p className="text-lg font-medium">{birthdayHighlight.dateLabel}</p>
+                </div>
+                <div className="rounded-2xl border border-rose-100 bg-white/90 px-4 py-3 shadow-inner">
+                  <p className="text-xs uppercase tracking-wide text-slate-400">Location</p>
+                  <p className="text-lg font-medium">{birthdayHighlight.location}</p>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-3">
+                {birthdayMoments.map((moment) => (
+                  <div
+                    key={moment.title}
+                    className="flex gap-3 rounded-2xl bg-white/90 p-3 shadow-sm border border-rose-100"
+                  >
+                    <div className="mt-1">{moment.icon}</div>
+                    <div>
+                      <p className="text-base font-semibold text-slate-900">{moment.title}</p>
+                      <p className="text-sm text-slate-600">{moment.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-rose-200 bg-white/80 p-6 shadow-lg">
+              <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Birthday itinerary</p>
+              <h4 className="mt-2 text-2xl font-semibold text-slate-900">Promise timeline</h4>
+              <div className="mt-6 space-y-4">
+                {birthdayTimeline.map((item) => (
+                  <div key={item.time} className="flex items-center gap-4">
+                    <div className="text-right">
+                      <p className="text-lg font-semibold text-rose-500">{item.time}</p>
+                    </div>
+                    <div className="h-full w-px bg-rose-200" />
+                    <p className="flex-1 text-sm text-slate-600">{item.plan}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}

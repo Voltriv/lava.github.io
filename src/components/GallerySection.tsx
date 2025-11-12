@@ -1,17 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { MediaEntry, subscribeToMediaEntries } from '@/lib/mediaService';
 import { mediaAsset } from '@/lib/constants';
 
 
 
+type GalleryItem = {
+  id: number | string;
+  src: string;
+  alt: string;
+  category: string;
+  caption: string;
+  credit: string;
+  isVideo?: boolean;
+};
+
 export function GallerySection() {
   const [selectedAlbum, setSelectedAlbum] = useState('all');
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
+  const [remoteItems, setRemoteItems] = useState<GalleryItem[]>([]);
+  const [isRemoteLoading, setIsRemoteLoading] = useState(true);
 
   const albums = [
     { id: 'all', name: 'All Photos', count: 12 },
@@ -20,7 +33,28 @@ export function GallerySection() {
     { id: 'favorites', name: 'Favorites', count: 4 },
   ];
 
-  const photos = [
+  useEffect(() => {
+    const unsubscribe = subscribeToMediaEntries((items: MediaEntry[]) => {
+      setRemoteItems(
+        items
+          .filter((entry) => entry.mediaType === 'photo' || entry.mediaType === 'video')
+          .map((entry) => ({
+            id: entry.id,
+            src: entry.url ?? '',
+            alt: entry.title,
+            category: entry.category || 'favorites',
+            caption: entry.description || '',
+            credit: 'Uploaded via admin',
+            isVideo: entry.mediaType === 'video',
+          }))
+          .filter((entry) => entry.src),
+      );
+      setIsRemoteLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const fallbackPhotos: GalleryItem[] = [
     {
       id: 1,
       src: mediaAsset('pic1.jpg'),
@@ -73,9 +107,15 @@ export function GallerySection() {
   ];
 
 
-  const filteredPhotos = selectedAlbum === 'all' 
-    ? photos 
-    : photos.filter(photo => photo.category === selectedAlbum);
+  const photos = useMemo(() => (remoteItems.length ? remoteItems : fallbackPhotos), [remoteItems]);
+
+  const filteredPhotos = useMemo(
+    () =>
+      selectedAlbum === 'all'
+        ? photos
+        : photos.filter((photo) => photo.category === selectedAlbum),
+    [photos, selectedAlbum],
+  );
 
   const nextImage = () => {
     if (lightboxImage !== null) {
@@ -92,11 +132,19 @@ export function GallerySection() {
   return (
     <section id="gallery" className="py-20 px-4 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 space-y-4">
           <h2 className="text-3xl md:text-4xl mb-4">Our Gallery</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A collection of our favorite moments, adventures, and everyday magic captured through the lens.
           </p>
+          {isRemoteLoading && (
+            <p className="text-sm text-muted-foreground">Loading uploaded memories…</p>
+          )}
+          {!isRemoteLoading && remoteItems.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              No uploads yet, so we&apos;re showing our curated gallery. Add your own from the admin panel anytime.
+            </p>
+          )}
         </div>
 
         {/* Album Filters */}
@@ -126,7 +174,7 @@ export function GallerySection() {
             >
               <CardContent className="p-0 relative">
                 <div className="aspect-square overflow-hidden">
-                  {photo.src.endsWith('.mp4') ? (  // If it's a video
+                  {photo.isVideo || photo.src.endsWith('.mp4') ? (
                     <video
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       controls
@@ -180,7 +228,7 @@ export function GallerySection() {
                   <ChevronRight className="w-5 h-5" />
                 </button>
 
-                {filteredPhotos[lightboxImage].src.endsWith('.mp4') ? (
+                {filteredPhotos[lightboxImage].isVideo || filteredPhotos[lightboxImage].src.endsWith('.mp4') ? (
                   <video
                     className="w-full h-auto max-h-[80vh] object-contain"
                     controls
